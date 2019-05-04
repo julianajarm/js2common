@@ -28,6 +28,11 @@
                 <div class="basket"></div>
             </div>
         </div>
+
+        <div class="searchLine">
+            <input type="text" class="goods-search" v-model="searchLine">
+            <button class="search-button" type="button" @click="filterGoods()">Искать</button>
+        </div>
     </header>
 
     <main>
@@ -35,6 +40,7 @@
         <div class="products">
             
             <div class="product-item" v-for="product of products" :key="product.id_product">
+                <div class="empty" v-if="!product">Корзина пуста</div>
                 <img :src="imgCatalog" alt="">
                 <div class="desc">
                     <h3> {{ product.product_name }} </h3>

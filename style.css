@@ -5,6 +5,7 @@ body {
 
 header {
     background: lightgrey;
+    padding: 15px;
     max-width: 100%;
     min-height: 80px;
     border-radius: 5px;
@@ -32,6 +33,34 @@ header {
     color: #FF4500;
     cursor: pointer;
   }
+
+.search-button,
+.searchLine input {
+    background-color: white;
+    border: 2px solid #FF4500;
+    color: #FF4500;
+    border-radius: 10px;
+    width: 140px;
+    height: 40px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+.search-button:hover {
+    background-color: #FF4500;
+    cursor: pointer;
+    color: white;
+    border: 2px solid white;
+    outline: none;
+}
+.searchLine input {
+    width: 200px;
+    border: 1px solid #FF4500;
+    background-color: #FFE8CD
+}
+.searchLine input:focus {
+    background-color: white;
+    outline: none;
+}
 
 .goods-list {
     margin-top: 20px;
@@ -77,6 +106,11 @@ header {
 .removeButton {
     border: 0px solid darkred;
     color: red;
+}
+
+.searchLine {
+    margin: 20px;
+    box-sizing: border-box;
 }
 
 .addButton:hover {
