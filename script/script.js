@@ -2,7 +2,7 @@
 
 const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
 
-let app = new Vue ({
+let app = new Vue({
     el: '#app',
     data: {
         catalogUrl: '/catalogData.json',
@@ -11,22 +11,23 @@ let app = new Vue ({
         showCart: false,
         cartUrl: '/getBasket.json',
         cartItems: [],
-        filtered: []
+        filtered: [],
+        isError: false,
     },
     methods: {
         getJson(url) {
             return fetch(url)
                 .then(result => result.json())
                 .catch(error => {
-                    console.log(error)
+                    this.isError = true;
                 })
         },
         addProduct(product) {
             this.getJson(`${API}/addToBasket.json`)
                 .then(data => {
-                    if (data.result) {
+                    if(data.result) {
                         let find = this.cartItems.find(el => el.id_product === product.id_product);
-                        if (find) {
+                        if(find) {
                             find.quantity++;
                         } else {
                             let prod = Object.assign({quantity: 1}, product);
@@ -45,7 +46,8 @@ let app = new Vue ({
         this.getJson (`${API + this.catalogUrl}`)
             .then (data => {
                 for (let el of data) {
-                    this.products.push (el)
+                    this.products.push(el);
+                    this.filtered.push(el);
                 }
             });
         //via Local Host
@@ -57,8 +59,8 @@ let app = new Vue ({
         //     });
         this.getJson (`${API + this.cartUrl}`)
             .then (data => {
-                for (let el of data) {
-                    this.cartItems.push (el);
+                for (let el of data.contents) {
+                    this.cartItems.push(el);
                 }
             });
     }

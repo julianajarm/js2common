@@ -1,17 +1,17 @@
-Vue.component ('products', {
+Vue.component('products', {
     props: ['products', 'img'],
     template: `
     <div class="products">
-    <product
-    v-for="product of products"
-    :key="product.id_product"
-    :img="img"
-    :product="product"
-    ></product>
+        <product
+            v-for="product of products"
+            :key="product.id_product"
+            :img="img"
+            :product="product">    
+        </product>
     </div>`
 });
 
-Vue.component ('product', {
+Vue.component('product', {
     props: ['product', 'img'],
     template: `
      <div class="product-item">
