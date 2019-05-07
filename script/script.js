@@ -1,5 +1,5 @@
 'use strict';
-// Фэйк АПИ
+
 const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
 
 let app = new Vue ({
@@ -7,25 +7,40 @@ let app = new Vue ({
     data: {
         catalogUrl: '/catalogData.json',
         products: [],
-        filteredProducts: [],
-        searchLine: '',
-        imgCatalog: 'http://placehold.it/250x150'
+        imgCatalog: 'http://placehold.it/250x150',
+        showCart: false,
+        cartUrl: '/getBasket.json',
+        cartItems: [],
+        filtered: []
     },
     methods: {
-        getJson (url) {
-            return fetch (url)
-                .then (result => result.json ())
-                .catch (error => {
-                    console.log (error)
+        getJson(url) {
+            return fetch(url)
+                .then(result => result.json())
+                .catch(error => {
+                    console.log(error)
                 })
         },
-        addProduct (product) {
-            console.log (product.id_product);
+        addProduct(product) {
+            this.getJson(`${API}/addToBasket.json`)
+                .then(data => {
+                    if (data.result) {
+                        let find = this.cartItems.find(el => el.id_product === product.id_product);
+                        if (find) {
+                            find.quantity++;
+                        } else {
+                            let prod = Object.assign({quantity: 1}, product);
+                            this.cartItems.push(prod);
+                        }
+                    }
+                })
         },
-        filterGoods () {
-            console.log(this.products);
-        }
+        filter (userSearch) {
+            let regexp = new Regexp (userSearch, 'i');
+            this.filtered = this.products.filter(el => regexp.test(el.product_name));
+        },
     },
+
     mounted () {
         this.getJson (`${API + this.catalogUrl}`)
             .then (data => {
@@ -33,10 +48,17 @@ let app = new Vue ({
                     this.products.push (el)
                 }
             });
-        this.getJson (`getProducts.json`)
+        //via Local Host
+        // this.getJson (`getProducts.json`)
+        //     .then (data => {
+        //         for (let el of data) {
+        //             this.products.push (el)
+        //         }
+        //     });
+        this.getJson (`${API + this.cartUrl}`)
             .then (data => {
                 for (let el of data) {
-                    this.products.push (el)
+                    this.cartItems.push (el);
                 }
             });
     }
